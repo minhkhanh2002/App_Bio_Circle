@@ -1,7 +1,10 @@
 import 'package:app_bio/pages/bottomnav.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+
+import '../services/birthdate_provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -11,6 +14,24 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final TextEditingController _nameController = TextEditingController();
   DateTime? _selectedDate;
+
+  // Future<void> _saveUserData() async {
+  //   if (_nameController.text.isEmpty || _selectedDate == null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin")),
+  //     );
+  //     return;
+  //   }
+  //
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('userName', _nameController.text);
+  //   await prefs.setString('birthDate', DateFormat('yyyy-MM-dd').format(_selectedDate!));
+  //
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => BottomNav()),
+  //   );
+  // }
 
   Future<void> _saveUserData() async {
     if (_nameController.text.isEmpty || _selectedDate == null) {
@@ -23,6 +44,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userName', _nameController.text);
     await prefs.setString('birthDate', DateFormat('yyyy-MM-dd').format(_selectedDate!));
+
+    // Cập nhật Provider
+    Provider.of<BirthDateProvider>(context, listen: false).setBirthDate(_selectedDate!);
 
     Navigator.pushReplacement(
       context,

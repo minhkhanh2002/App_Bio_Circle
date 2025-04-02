@@ -1,9 +1,25 @@
 import 'package:app_bio/pages/home.dart';
 import 'package:app_bio/pages/welcome.dart';
+import 'package:app_bio/services/birthdate_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final birthDateProvider = BirthDateProvider();
+  await birthDateProvider.loadBirthDate();
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => birthDateProvider,
+      child: MyApp(),
+    ),
+      // MultiProvider(providers: [
+      //   ChangeNotifierProvider(create: (context) =>BirthDateProvider()),
+      // ],
+      //   child: MyApp(),
+      // ),
+  );
+      // const MyApp());
 }
 
 class MyApp extends StatelessWidget {
