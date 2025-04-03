@@ -174,6 +174,54 @@ class _ExtendState extends State<Extend> {
     );
   }
 
+  // Widget buildChart(DateTime birthDate) {
+  //   return SizedBox(
+  //     height: MediaQuery.of(context).size.height / 2.5,
+  //     child: LineChart(
+  //       LineChartData(
+  //         minX: -2,
+  //         maxX: 6,
+  //         minY: -1,
+  //         maxY: 1,
+  //         lineBarsData: [
+  //           LineChartBarData(spots: generateCyclePoints(38, birthDate), color: Colors.purple, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
+  //           LineChartBarData(spots: generateCyclePoints(43, birthDate), color: Colors.orange, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
+  //           LineChartBarData(spots: generateCyclePoints(48, birthDate), color: Colors.teal, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
+  //           LineChartBarData(spots: generateCyclePoints(53, birthDate), color: Colors.brown, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
+  //         ],
+  //         titlesData: FlTitlesData(
+  //           bottomTitles: AxisTitles(
+  //             sideTitles: SideTitles(
+  //               showTitles: true,
+  //               interval: 1,
+  //               getTitlesWidget: (value, meta) {
+  //                 final date = viewStartDate.add(Duration(days: value.toInt()));
+  //                 return Text(DateFormat('dd/MM').format(date), style: TextStyle(fontSize: 10));
+  //               },
+  //             ),
+  //           ),
+  //         ),
+  //         extraLinesData: ExtraLinesData(
+  //           verticalLines: [
+  //             VerticalLine(
+  //               x: today.difference(viewStartDate).inDays.toDouble(),
+  //               color: Colors.red,
+  //               strokeWidth: 1.5,
+  //               dashArray: [5, 5],
+  //               label: VerticalLineLabel(
+  //                 show: true,
+  //                 alignment: Alignment.topCenter,
+  //                 style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+  //                 labelResolver: (line) => 'Hôm nay',
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget buildChart(DateTime birthDate) {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2.5,
@@ -181,15 +229,52 @@ class _ExtendState extends State<Extend> {
         LineChartData(
           minX: -2,
           maxX: 6,
-          minY: -1,
-          maxY: 1,
+          minY: 0, // Đặt minY là 0
+          maxY: 100, // Đặt maxY là 100
           lineBarsData: [
-            LineChartBarData(spots: generateCyclePoints(38, birthDate), color: Colors.purple, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
-            LineChartBarData(spots: generateCyclePoints(43, birthDate), color: Colors.orange, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
-            LineChartBarData(spots: generateCyclePoints(48, birthDate), color: Colors.teal, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
-            LineChartBarData(spots: generateCyclePoints(53, birthDate), color: Colors.brown, isCurved: true, dotData: FlDotData(show: false), barWidth: 2),
+            LineChartBarData(
+              spots: generateCyclePoints(38, birthDate).map((spot) =>
+                  FlSpot(spot.x, (spot.y + 1) * 50)).toList(), // Chuyển đổi giá trị
+              color: Colors.purple,
+              isCurved: true,
+              dotData: FlDotData(show: false),
+              barWidth: 2,
+            ),
+            LineChartBarData(
+              spots: generateCyclePoints(43, birthDate).map((spot) =>
+                  FlSpot(spot.x, (spot.y + 1) * 50)).toList(),
+              color: Colors.orange,
+              isCurved: true,
+              dotData: FlDotData(show: false),
+              barWidth: 2,
+            ),
+            LineChartBarData(
+              spots: generateCyclePoints(48, birthDate).map((spot) =>
+                  FlSpot(spot.x, (spot.y + 1) * 50)).toList(),
+              color: Colors.teal,
+              isCurved: true,
+              dotData: FlDotData(show: false),
+              barWidth: 2,
+            ),
+            LineChartBarData(
+              spots: generateCyclePoints(53, birthDate).map((spot) =>
+                  FlSpot(spot.x, (spot.y + 1) * 50)).toList(),
+              color: Colors.brown,
+              isCurved: true,
+              dotData: FlDotData(show: false),
+              barWidth: 2,
+            ),
           ],
           titlesData: FlTitlesData(
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 32,
+                getTitlesWidget: (value, meta) {
+                  return Text("${value.toInt()}%", style: TextStyle(fontSize: 10));
+                },
+              ),
+            ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
