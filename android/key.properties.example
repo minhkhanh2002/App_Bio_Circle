@@ -1,0 +1,8 @@
+# Sao chép file này thành `key.properties` (cùng thư mục android/) rồi điền giá trị thật.
+# KHÔNG commit key.properties và file .jks lên git (đã được .gitignore chặn).
+
+storePassword=<mật khẩu keystore>
+keyPassword=<mật khẩu key>
+keyAlias=upload
+# Đường dẫn tới file keystore, tương đối so với thư mục android/app/
+storeFile=upload-keystore.jks

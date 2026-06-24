@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>App Bio</string>
+	<string>BioPio</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,6 +24,9 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- App chỉ dùng mã hóa chuẩn (HTTPS) -> miễn khai báo export compliance. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -45,5 +48,39 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>PioCalm</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>PioCalm</string></array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>PioEmotional</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>PioEmotional</string></array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>PioIntellectual</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>PioIntellectual</string></array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>PioPhysical</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array><string>PioPhysical</string></array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

@@ -1,175 +1,233 @@
 import 'package:app_bio/pages/bottomnav.dart';
-import 'package:app_bio/pages/home.dart';
 import 'package:app_bio/pages/welcome.dart';
+import 'package:app_bio/pages/Screen.dart';
+import 'package:app_bio/pages/language_select.dart';
 import 'package:app_bio/services/birthdate_provider.dart';
+import 'package:app_bio/services/app_settings_provider.dart';
+import 'package:app_bio/services/feedback_service.dart';
 import 'package:app_bio/services/notification_service.dart';
+import 'package:app_bio/services/app_localizations.dart';
+import 'package:app_bio/services/app_icon_service.dart';
+import 'package:app_bio/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:app_bio/widgets/widget_support.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
 
+  // Khởi tạo Firebase (dùng cho ghi góp ý). Có guard để app vẫn chạy nếu
+  // dự án Firebase chưa được cấu hình (ví dụ khi test trên web chưa setup).
+  try {
+    // Timeout để KHÔNG bao giờ kẹt ở màn splash nếu mạng kém/không có (hoặc
+    // thiết bị thiếu Google Play Services). App vẫn chạy, chỉ là tính năng cần
+    // mạng sẽ tạm không dùng được.
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    ).timeout(const Duration(seconds: 6));
+
+    // App Check: chỉ app thật (đã được chứng thực) mới gọi được Cloud Functions
+    // có enforceAppCheck. Debug build dùng debug provider; release dùng
+    // Play Integrity (Android) / App Attest (iOS). Lỗi/timeout không chặn app —
+    // chỉ khiến tính năng cần App Check tạm không dùng được.
+    try {
+      await FirebaseAppCheck.instance
+          .activate(
+            providerAndroid: kDebugMode
+                ? AndroidDebugProvider()
+                : AndroidPlayIntegrityProvider(),
+            providerApple:
+                kDebugMode ? AppleDebugProvider() : AppleAppAttestProvider(),
+          )
+          .timeout(const Duration(seconds: 6));
+    } catch (_) {
+      // Bỏ qua: thiếu Play Services / mạng kém → AI tạm không gọi được.
+    }
+
+    FeedbackService.ready = true;
+    // Gửi lại các góp ý còn tồn trong hàng đợi offline (không chặn khởi động).
+    FeedbackService().flushQueue();
+  } catch (_) {
+    FeedbackService.ready = false;
+  }
 
   final prefs = await SharedPreferences.getInstance();
   final birthDateString = prefs.getString('birthDate');
-  final birthDateProvider = BirthDateProvider();
-  Workmanager().registerPeriodicTask("dailyNotification", "showNotification",
-      frequency: Duration(days: 1));
-  //runApp(MyApp());
+  final seenOnboarding = prefs.getBool('seenOnboarding') ?? false;
+  final notificationsEnabled = prefs.getBool('notificationsEnabled') ?? false;
+  final isDarkMode = prefs.getBool('isDarkMode') ?? true;
+  final languageCode = prefs.getString('languageCode') ?? 'vi';
+  final languageChosen = prefs.getBool('languageChosen') ?? false;
 
+  if (!kIsWeb) {
+    try {
+      final notifService = NotificationService();
+      await notifService.init().timeout(const Duration(seconds: 6));
+      if (notificationsEnabled) {
+        final notifHour = prefs.getInt('notificationHour') ?? 6;
+        final notifMinute = prefs.getInt('notificationMinute') ?? 0;
+        final s = AppStrings(languageCode);
+        await notifService.scheduleDailyNotification(
+          notifHour,
+          notifMinute,
+          title: s.t('notif.title'),
+          body: s.t('notif.body'),
+        );
+      }
+    } catch (_) {
+      // Khởi tạo thông báo lỗi/timeout → bỏ qua, không chặn khởi động app.
+    }
+  }
 
-  runApp(MyApp(hasUserData: birthDateString != null));
-  // await birthDateProvider.loadBirthDate();
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (_) => birthDateProvider,
-  //     child: MyApp(),
-  //   ),
-  //     // MultiProvider(providers: [
-  //     //   ChangeNotifierProvider(create: (context) =>BirthDateProvider()),
-  //     // ],
-  //     //   child: MyApp(),
-  //     // ),
-  // );
-      // const MyApp());
-  // print("Múi giờ hiện tại: ${tz.local}");
-  // var now;
-  // print("Thời gian hiện tại: ${now.toString()}");
-
+  runApp(MyApp(
+    hasUserData: birthDateString != null,
+    seenOnboarding: seenOnboarding,
+    isDarkMode: isDarkMode,
+    languageCode: languageCode,
+    languageChosen: languageChosen,
+  ));
 }
 
-
-
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final bool hasUserData;
-  MyApp({required this.hasUserData});
-  //const MyApp({super.key});
+  final bool seenOnboarding;
+  final bool isDarkMode;
+  final String languageCode;
+  final bool languageChosen;
 
-  // This widget is the root of your application.
+  const MyApp({
+    super.key,
+    required this.hasUserData,
+    required this.seenOnboarding,
+    required this.isDarkMode,
+    required this.languageCode,
+    required this.languageChosen,
+  });
+
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BirthDateProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: hasUserData ? BottomNav(): WelcomeScreen(), // Nếu có dữ liệu, vào thẳng home
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Tính năng ẩn: đổi icon theo giờ (chỉ chạy sau khi cài >1 ngày).
+    AppIconService().applyTimeBasedIcon();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      AppIconService().applyTimeBasedIcon();
+    }
+  }
+
+  /// Màn hình khởi đầu sau khi đã chọn ngôn ngữ.
+  Widget startAfterLanguage() {
+    if (widget.hasUserData) return const BottomNav();
+    if (!widget.seenOnboarding) return const OnboardingScreen();
+    return WelcomeScreen();
+  }
+
+  Widget get _initialScreen {
+    // Lần đầu sử dụng: hỏi ngôn ngữ trước tiên.
+    if (!widget.languageChosen) return const LanguageSelectScreen();
+    return startAfterLanguage();
+  }
+
+  ThemeData _theme(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+    return ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      fontFamily: 'Poppins',
+      scaffoldBackgroundColor:
+          isDark ? AppWidget.darkBgStart : AppWidget.lightBgStart,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF2575FC),
+        brightness: brightness,
       ),
     );
-
-
-    // return MaterialApp(
-    //   title: 'Chu kỳ sinh học',
-    //   theme: ThemeData(
-    //     // This is the theme of your application.
-    //     //
-    //     // TRY THIS: Try running your application with "flutter run". You'll see
-    //     // the application has a purple toolbar. Then, without quitting the app,
-    //     // try changing the seedColor in the colorScheme below to Colors.green
-    //     // and then invoke "hot reload" (save your changes or press the "hot
-    //     // reload" button in a Flutter-supported IDE, or press "r" if you used
-    //     // the command line to start the app).
-    //     //
-    //     // Notice that the counter didn't reset back to zero; the application
-    //     // state is not lost during the reload. To reset the state, use hot
-    //     // restart instead.
-    //     //
-    //     // This works for code too, not just values: Most code changes can be
-    //     // tested with just a hot reload.
-    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    //     useMaterial3: true,
-    //   ),
-    //   home: WelcomeScreen(),
-    // );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => BirthDateProvider()),
+        ChangeNotifierProvider(
+          create: (_) => AppSettingsProvider.seed(
+            isDarkMode: widget.isDarkMode,
+            languageCode: widget.languageCode,
+            languageChosen: widget.languageChosen,
+          ),
         ),
+      ],
+      child: Consumer<AppSettingsProvider>(
+        builder: (context, settings, _) {
+          // Đồng bộ bảng màu + locale mặc định cho intl (định dạng ngày/thứ).
+          AppWidget.isDark = settings.isDarkMode;
+          Intl.defaultLocale = settings.locale.languageCode;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeMode: settings.themeMode,
+            theme: _theme(Brightness.light),
+            darkTheme: _theme(Brightness.dark),
+            locale: settings.locale,
+            supportedLocales: const [Locale('vi'), Locale('en')],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            // Tự co giãn giao diện cho màn hình lớn (tablet/desktop):
+            // layout 450px được phóng to & canh giữa, giữ bố cục như điện thoại.
+            builder: (context, child) => ResponsiveBreakpoints.builder(
+              breakpoints: const [
+                Breakpoint(start: 0, end: 450, name: MOBILE),
+                Breakpoint(start: 451, end: 800, name: TABLET),
+                Breakpoint(start: 801, end: 1920, name: DESKTOP),
+                Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+              ],
+              child: Builder(
+                builder: (context) {
+                  final bp = ResponsiveBreakpoints.of(context);
+                  if (bp.largerThan(MOBILE)) {
+                    return MaxWidthBox(
+                      maxWidth: 600,
+                      backgroundColor:
+                          AppWidget.isDark ? AppWidget.darkBgStart : AppWidget.lightBgStart,
+                      child: ResponsiveScaledBox(
+                        width: 450,
+                        child: child!,
+                      ),
+                    );
+                  }
+                  return child!;
+                },
+              ),
+            ),
+            home: _initialScreen,
+          );
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

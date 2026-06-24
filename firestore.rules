@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Góp ý: client (ẩn danh) được TẠO/ghi (set = create|update, idempotent theo
+    // clientId ngẫu nhiên), nhưng KHÔNG được đọc/xóa của bất kỳ ai.
+    match /feedback/{doc} {
+      allow create, update: if true;
+      allow read, delete: if false;
+    }
+
+    // ai_usage, app_config... chỉ truy cập qua server (Admin SDK bỏ qua rules).
+    // Mọi truy cập trực tiếp từ client đều bị từ chối.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
