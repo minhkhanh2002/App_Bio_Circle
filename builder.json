@@ -1,0 +1,16 @@
+{
+  "project": "app_bio_circle",
+  "platform": "ios",
+  "github": {
+    "owner": "minhkhanh2002",
+    "repo": "App_Bio_Circle"
+  },
+  "ios": {
+    "path": "ios"
+  },
+  "flutter": {
+    "watch": {}
+  },
+  "reactNative": {},
+  "mobai": {}
+}
