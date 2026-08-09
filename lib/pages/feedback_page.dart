@@ -105,7 +105,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         maxLines: 5,
                         maxLength: 1000,
                         autofocus: true,
-                        style: TextStyle(color: AppWidget.primaryText, fontSize: 14, fontFamily: 'Poppins'),
+                        style: TextStyle(color: AppWidget.primaryText, fontSize: 14, fontFamily: 'BeVietnamPro'),
                         decoration: InputDecoration(
                           hintText: s.t('settings.feedbackHint'),
                           hintStyle: TextStyle(color: AppWidget.mutedText),
@@ -124,7 +124,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       TextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(color: AppWidget.primaryText, fontSize: 14, fontFamily: 'Poppins'),
+                        style: TextStyle(color: AppWidget.primaryText, fontSize: 14, fontFamily: 'BeVietnamPro'),
                         decoration: InputDecoration(
                           hintText: s.t('settings.feedbackEmailHint'),
                           hintStyle: TextStyle(color: AppWidget.mutedText, fontSize: 13),
@@ -180,7 +180,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins',
+                                    fontFamily: 'BeVietnamPro',
                                   ),
                                 ),
                         ),

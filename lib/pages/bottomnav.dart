@@ -127,7 +127,7 @@ class _BottomNavState extends State<BottomNav> {
                                       color: iconActive,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 13,
-                                      fontFamily: 'Poppins',
+                                      fontFamily: 'BeVietnamPro',
                                     ),
                                   ),
                                 ],

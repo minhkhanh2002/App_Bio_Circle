@@ -105,7 +105,7 @@ class _LangButton extends StatelessWidget {
                 color: AppWidget.primaryText,
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Poppins',
+                fontFamily: 'BeVietnamPro',
               ),
             ),
             const Spacer(),

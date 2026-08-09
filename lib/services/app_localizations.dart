@@ -75,8 +75,7 @@ class AppStrings {
     'badge.unlockedTitle': 'THÀNH TỰU ẨN MỚI!',
     'badge.closeBtn': 'Tôi xin lỗi Pio, tôi hứa sẽ bớt bóc lột lại',
     // Thông báo đẩy
-    'notif.title': 'Tóm tắt sức khỏe hôm nay',
-    'notif.body': 'Hãy kiểm tra chu kỳ sinh học của bạn nhé!',
+    'notif.title': 'Chúc bạn một ngày tốt lành!',
     'settings.notifDenied': 'Bạn cần cấp quyền thông báo để bật tính năng này.',
     'settings.aiStyle': 'Phong cách gợi ý AI',
     'settings.aiStyleNote': 'Ghi chú phong cách (tùy chọn)',
@@ -143,13 +142,13 @@ class AppStrings {
     // Forecast
     'forecast.title': 'Dự báo 60 ngày tới',
     'forecast.subtitle': 'Các cột mốc sinh học quan trọng trong tương lai gần.',
-    'forecast.goldenTitle': 'Thời Kỳ Hoàng Kim',
+    'forecast.goldenTitle': 'Giai Đoạn Hoàng Kim',
     'forecast.goldenDesc':
-        'Khoảng thời gian năng lượng tổng hợp (thể chất, cảm xúc, trí tuệ) đạt đỉnh. Thích hợp để bắt đầu dự án mới, thi cử hay đưa ra quyết định lớn!',
-    'forecast.healingTitle': 'Thời Kỳ Phục Hồi',
+        'Đây là lúc năng lượng của bạn — cả thể chất, cảm xúc lẫn trí tuệ — cùng lên đỉnh. Rất hợp để bắt đầu dự án mới, thi cử hay đưa ra quyết định lớn!',
+    'forecast.healingTitle': 'Giai Đoạn Phục Hồi',
     'forecast.healingDesc':
-        'Khoảng thời gian năng lượng chung ở mức thấp. Bạn nên tránh ôm đồm công việc và chú ý chăm sóc bản thân nhiều hơn.',
-    'forecast.extremesTitle': 'Các ngày cực trị (Đỉnh & Đáy)',
+        'Đây là lúc năng lượng chung của bạn đang xuống thấp. Đừng ôm đồm quá nhiều việc, hãy dành thời gian chăm sóc bản thân nhiều hơn nhé.',
+    'forecast.extremesTitle': 'Những ngày đáng chú ý',
     'forecast.bestPhysical': 'Thể chất tốt nhất',
     'forecast.bestPhysical.tip':
         'Phong độ thể lực sung mãn nhất, rất thích hợp vận động nặng.',
@@ -287,8 +286,7 @@ class AppStrings {
     'badge.unlockedTitle': 'NEW HIDDEN ACHIEVEMENT!',
     'badge.closeBtn': 'I\'m sorry Pio, I\'ll exploit less',
     // Push notification
-    'notif.title': 'Today’s wellness',
-    'notif.body': 'Check your biorhythm for today!',
+    'notif.title': 'Wishing you a wonderful day!',
     'settings.notifDenied': 'You need to grant notification permission to enable this.',
     'settings.aiStyle': 'AI advice style',
     'settings.aiStyleNote': 'Style note (optional)',

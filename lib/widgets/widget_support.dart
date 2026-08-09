@@ -34,14 +34,14 @@ class AppWidget {
   static const List<Color> awarenessGradient = [Color(0xFF11998E), Color(0xFF38EF7D)];
   static const List<Color> spiritualGradient = [Color(0xFFA18CD1), Color(0xFFFBC2EB)];
 
-  // ----- Kiểu chữ (Poppins) thích ứng theme -----
+  // ----- Kiểu chữ (Be Vietnam Pro) thích ứng theme -----
   static TextStyle boldTextFieldStyle() {
     return TextStyle(
         color: primaryText,
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
         letterSpacing: 0.2,
-        fontFamily: 'Poppins');
+        fontFamily: 'BeVietnamPro');
   }
 
   static TextStyle HeadlineTextFeildStyle() {
@@ -50,7 +50,7 @@ class AppWidget {
         fontSize: 26.0,
         fontWeight: FontWeight.bold,
         letterSpacing: 0.3,
-        fontFamily: 'Poppins');
+        fontFamily: 'BeVietnamPro');
   }
 
   static TextStyle LightTextFeildStyle() {
@@ -59,7 +59,7 @@ class AppWidget {
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
         height: 1.4,
-        fontFamily: 'Poppins');
+        fontFamily: 'BeVietnamPro');
   }
 
   static TextStyle semiBoldTextFeildStyle() {
@@ -68,7 +68,7 @@ class AppWidget {
         fontSize: 17.0,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.1,
-        fontFamily: 'Poppins');
+        fontFamily: 'BeVietnamPro');
   }
 
   // ----- Glass box decoration thích ứng -----

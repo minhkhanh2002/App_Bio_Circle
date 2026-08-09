@@ -154,7 +154,7 @@ class _ExtendState extends State<Extend> {
                       color: AppWidget.primaryText,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins')),
+                      fontFamily: 'BeVietnamPro')),
               if (isAi) ...[
                 const SizedBox(width: 8),
                 Container(
@@ -313,14 +313,14 @@ class _ExtendState extends State<Extend> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(s.t('extend.soulTitle'),
-                    style: TextStyle(color: AppWidget.mutedText, fontSize: 13, fontFamily: 'Poppins')),
+                    style: TextStyle(color: AppWidget.mutedText, fontSize: 13, fontFamily: 'BeVietnamPro')),
                 const SizedBox(height: 4),
                 Text(description,
                     style: TextStyle(
                         color: AppWidget.primaryText,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins')),
+                        fontFamily: 'BeVietnamPro')),
               ],
             ),
           )
@@ -587,9 +587,9 @@ class _ExtendState extends State<Extend> {
                               color: AppWidget.primaryText,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins')),
+                              fontFamily: 'BeVietnamPro')),
                       Text(subtitle,
-                          style: TextStyle(color: AppWidget.mutedText, fontSize: 11, fontFamily: 'Poppins')),
+                          style: TextStyle(color: AppWidget.mutedText, fontSize: 11, fontFamily: 'BeVietnamPro')),
                     ],
                   ),
                 ],
@@ -602,7 +602,7 @@ class _ExtendState extends State<Extend> {
                 ),
                 child: Text("$percent%",
                     style: const TextStyle(
-                        color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Poppins')),
+                        color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'BeVietnamPro')),
               )
             ],
           ),
@@ -660,6 +660,11 @@ class _ExtendState extends State<Extend> {
                             icon: Icon(Icons.calendar_month_rounded, color: AppWidget.secondaryText),
                             onPressed: () => _pickDate(context, birthDate),
                           ),
+                        IconButton(
+                          icon: Icon(Icons.info_outline_rounded, color: AppWidget.secondaryText),
+                          tooltip: s.t('info.title'),
+                          onPressed: () => showMetricsInfo(context, 'extended'),
+                        ),
                       ],
                     ),
                   ],

@@ -101,7 +101,7 @@ class CustomSnackBar {
                           color: isDark ? Colors.white : const Color(0xFF161A2B),
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'BeVietnamPro',
                         ),
                       ),
                     ),

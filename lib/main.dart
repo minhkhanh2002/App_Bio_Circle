@@ -72,15 +72,16 @@ Future<void> main() async {
     try {
       final notifService = NotificationService();
       await notifService.init().timeout(const Duration(seconds: 6));
-      if (notificationsEnabled) {
+      if (notificationsEnabled && birthDateString != null) {
         final notifHour = prefs.getInt('notificationHour') ?? 6;
         final notifMinute = prefs.getInt('notificationMinute') ?? 0;
         final s = AppStrings(languageCode);
-        await notifService.scheduleDailyNotification(
-          notifHour,
-          notifMinute,
-          title: s.t('notif.title'),
-          body: s.t('notif.body'),
+        await notifService.scheduleDailyBiorhythmNotifications(
+          hour: notifHour,
+          minute: notifMinute,
+          birthDate: DateTime.parse(birthDateString),
+          locale: s.code,
+          greetingTitle: s.t('notif.title'),
         );
       }
     } catch (_) {
@@ -157,7 +158,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      fontFamily: 'Poppins',
+      fontFamily: 'BeVietnamPro',
       scaffoldBackgroundColor:
           isDark ? AppWidget.darkBgStart : AppWidget.lightBgStart,
       colorScheme: ColorScheme.fromSeed(

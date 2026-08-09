@@ -138,10 +138,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             // Name input
                             TextField(
                               controller: _nameController,
-                              style: TextStyle(color: AppWidget.primaryText, fontFamily: 'Poppins'),
+                              style: TextStyle(color: AppWidget.primaryText, fontFamily: 'BeVietnamPro'),
                               decoration: InputDecoration(
                                 labelText: s.t('welcome.yourName'),
-                                labelStyle: TextStyle(color: AppWidget.mutedText, fontFamily: 'Poppins'),
+                                labelStyle: TextStyle(color: AppWidget.mutedText, fontFamily: 'BeVietnamPro'),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(color: Colors.white24),
@@ -180,7 +180,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           style: TextStyle(
                                             color: _selectedDate == null ? AppWidget.mutedText : AppWidget.primaryText,
                                             fontSize: 15,
-                                            fontFamily: 'Poppins',
+                                            fontFamily: 'BeVietnamPro',
                                           ),
                                         ),
                                       ],
@@ -225,7 +225,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     color: Colors.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins',
+                                    fontFamily: 'BeVietnamPro',
                                   ),
                                 ),
                               ),

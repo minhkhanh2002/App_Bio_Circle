@@ -54,7 +54,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final provider = context.read<BirthDateProvider>();
+    // watch (không phải read): BirthDateProvider tải dữ liệu bất đồng bộ từ
+    // SharedPreferences lúc khởi động, nên lần didChangeDependencies đầu tiên
+    // có thể chạy trước khi load xong. Phải watch để chạy lại khi provider
+    // notifyListeners() sau khi tải xong, nếu không birthDate sẽ kẹt ở null.
+    final provider = context.watch<BirthDateProvider>();
     if (provider.name != null && nameController.text.isEmpty) {
       nameController.text = provider.name!;
     }
@@ -93,12 +97,13 @@ class _SettingsPageState extends State<SettingsPage> {
     final s = AppStrings.read(context);
     final notif = NotificationService();
     await notif.cancelDailyNotification();
-    if (notificationsEnabled) {
-      await notif.scheduleDailyNotification(
-        notifHour,
-        notifMinute,
-        title: s.t('notif.title'),
-        body: s.t('notif.body'),
+    if (notificationsEnabled && birthDate != null) {
+      await notif.scheduleDailyBiorhythmNotifications(
+        hour: notifHour,
+        minute: notifMinute,
+        birthDate: birthDate!,
+        locale: s.code,
+        greetingTitle: s.t('notif.title'),
       );
     }
   }
@@ -229,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               TextField(
                                 controller: nameController,
                                 onChanged: _onNameChanged,
-                                style: TextStyle(color: AppWidget.primaryText, fontFamily: 'Poppins'),
+                                style: TextStyle(color: AppWidget.primaryText, fontFamily: 'BeVietnamPro'),
                                 decoration: InputDecoration(
                                   labelText: s.t('settings.fullName'),
                                   labelStyle: TextStyle(color: AppWidget.mutedText),
@@ -262,7 +267,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                             style: TextStyle(
                                                 color: AppWidget.primaryText,
                                                 fontSize: 14.5,
-                                                fontFamily: 'Poppins'),
+                                                fontFamily: 'BeVietnamPro'),
                                           ),
                                         ],
                                       ),
@@ -343,7 +348,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         style: TextStyle(
                                           color: AppWidget.primaryText,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins',
+                                          fontFamily: 'BeVietnamPro',
                                         ),
                                       ),
                                     ),
@@ -360,7 +365,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   dropdownColor: AppWidget.surface,
                                   underline: const SizedBox(),
                                   icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppWidget.secondaryText),
-                                  style: TextStyle(color: AppWidget.primaryText, fontFamily: 'Poppins', fontSize: 14),
+                                  style: TextStyle(color: AppWidget.primaryText, fontFamily: 'BeVietnamPro', fontSize: 14),
                                   items: const [
                                     DropdownMenuItem(value: 'vi', child: Text('Tiếng Việt')),
                                     DropdownMenuItem(value: 'en', child: Text('English')),
@@ -382,7 +387,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   dropdownColor: AppWidget.surface,
                                   underline: const SizedBox(),
                                   icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppWidget.secondaryText),
-                                  style: TextStyle(color: AppWidget.primaryText, fontFamily: 'Poppins', fontSize: 14),
+                                  style: TextStyle(color: AppWidget.primaryText, fontFamily: 'BeVietnamPro', fontSize: 14),
                                   items: _aiStyles
                                       .map((st) => DropdownMenuItem(value: st, child: Text(s.t('style.$st'))))
                                       .toList(),
@@ -396,7 +401,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 controller: aiNoteController,
                                 onChanged: settings.setAiStyleNote,
                                 maxLength: 120,
-                                style: TextStyle(color: AppWidget.primaryText, fontSize: 13.5, fontFamily: 'Poppins'),
+                                style: TextStyle(color: AppWidget.primaryText, fontSize: 13.5, fontFamily: 'BeVietnamPro'),
                                 decoration: InputDecoration(
                                   isDense: true,
                                   labelText: s.t('settings.aiStyleNote'),
@@ -461,7 +466,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                               color: AppWidget.primaryText,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w600,
-                                              fontFamily: 'Poppins')),
+                                              fontFamily: 'BeVietnamPro')),
                                       const SizedBox(height: 2),
                                       Text(s.t('settings.feedbackOpenSub'),
                                           style: TextStyle(color: AppWidget.mutedText, fontSize: 12)),
@@ -532,7 +537,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             color: AppWidget.primaryText,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins'),
+                            fontFamily: 'BeVietnamPro'),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -561,7 +566,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Icon(icon, color: AppWidget.secondaryText),
               const SizedBox(width: 12),
               Text(label,
-                  style: TextStyle(color: AppWidget.primaryText, fontSize: 14.5, fontFamily: 'Poppins')),
+                  style: TextStyle(color: AppWidget.primaryText, fontSize: 14.5, fontFamily: 'BeVietnamPro')),
             ],
           ),
           trailing,
