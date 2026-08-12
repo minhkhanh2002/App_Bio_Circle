@@ -1,0 +1,51 @@
+name: Android Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: 'Build configuration'
+        required: false
+        type: choice
+        options: ['release', 'debug']
+        default: 'release'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      # key.properties/upload-keystore.jks không nằm trong git (bí mật) — khi
+      # thiếu, android/app/build.gradle tự rơi về debug signing (xem
+      # signingConfig = keystorePropertiesFile.exists() ? release : debug).
+      # Đủ để xác nhận build compile/assemble được; KHÔNG dùng bản này để nộp
+      # store (chưa ký bằng upload key thật).
+      - name: Build APK
+        run: flutter build apk --${{ inputs.configuration || 'release' }}
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 7
+          if-no-files-found: error

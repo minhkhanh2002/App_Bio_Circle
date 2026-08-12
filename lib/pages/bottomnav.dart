@@ -22,6 +22,7 @@ class _BottomNavState extends State<BottomNav> {
   late Extend extendpage;
   late Forecast forecastpage;
   late SettingsPage settingpage;
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -29,8 +30,30 @@ class _BottomNavState extends State<BottomNav> {
     extendpage = Extend();
     forecastpage = Forecast();
     settingpage = SettingsPage();
-    pages = [homepage, extendpage, forecastpage, settingpage];
+    // _KeepAlivePage giữ state từng trang khi lướt sang trang khác (PageView
+    // mặc định huỷ state trang không hiển thị) — nếu không, lời khuyên AI sẽ
+    // mất khi lướt rời trang rồi quay lại.
+    pages = [
+      _KeepAlivePage(child: homepage),
+      _KeepAlivePage(child: extendpage),
+      _KeepAlivePage(child: forecastpage),
+      _KeepAlivePage(child: settingpage),
+    ];
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _goToTab(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -48,9 +71,13 @@ class _BottomNavState extends State<BottomNav> {
       extendBody: true, // Cho phép nội dung trang chui xuống dưới Bottom Bar để hiệu ứng Blur hoạt động đẹp nhất
       body: Stack(
         children: [
-          // Content Page — IndexedStack giữ state của cả 4 trang khi chuyển tab
-          // (nếu không, lời khuyên AI sẽ mất khi rời trang rồi quay lại).
-          IndexedStack(index: currentTabIndex, children: pages),
+          // Content Page — PageView cho phép lướt trái/phải để chuyển trang,
+          // không cần bấm icon. State từng trang được giữ bởi _KeepAlivePage.
+          PageView(
+            controller: _pageController,
+            onPageChanged: (index) => setState(() => currentTabIndex = index),
+            children: pages,
+          ),
 
           // Floating Glassmorphic Bottom Navigation Bar
           Align(
@@ -93,11 +120,7 @@ class _BottomNavState extends State<BottomNav> {
                         ];
 
                         return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              currentTabIndex = index;
-                            });
-                          },
+                          onTap: () => _goToTab(index),
                           behavior: HitTestBehavior.opaque,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
@@ -145,6 +168,30 @@ class _BottomNavState extends State<BottomNav> {
         ],
       ),
     );
+  }
+}
+
+/// Giữ state của [child] khi nó bị lướt ra khỏi màn hình trong PageView.
+/// PageView mặc định huỷ state của trang không hiển thị (khác với
+/// IndexedStack luôn giữ tất cả); wrap trang bằng widget này để tránh mất
+/// state (vd lời khuyên AI, vị trí cuộn) khi lướt qua rồi lướt lại.
+class _KeepAlivePage extends StatefulWidget {
+  final Widget child;
+  const _KeepAlivePage({required this.child});
+
+  @override
+  State<_KeepAlivePage> createState() => _KeepAlivePageState();
+}
+
+class _KeepAlivePageState extends State<_KeepAlivePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }
 

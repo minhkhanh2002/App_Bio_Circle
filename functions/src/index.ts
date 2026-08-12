@@ -133,6 +133,14 @@ const STYLE_DESC: Record<string, string> = {
 };
 
 /**
+ * KHÔNG CÒN ĐƯỢC APP GỌI (2026-08). Project Firebase kẹt ở gói Spark (free) —
+ * Cloud Functions gen2 bắt buộc Blaze mới được gọi ra internet, và việc nâng
+ * cấp bị chặn bởi lỗi thanh toán OR_ASMF_04. App đã chuyển sang gọi Cloudflare
+ * Worker (../../worker/src/index.ts — port lại y hệt logic dưới đây, bao gồm
+ * cả guardrails.ts) làm backend thay thế, không cần thẻ/Blaze.
+ * Giữ lại file này làm tham chiếu — nếu sau này nâng được Blaze và muốn quay
+ * lại dùng Cloud Function, chỉ cần trỏ advice_service.dart về đây.
+ *
  * Sinh lời khuyên chu kỳ sinh học cá nhân hóa bằng Claude.
  * Giới hạn 1 lần / người (anonUserId) / ngày.
  */

@@ -3,7 +3,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/birthdate_provider.dart';
 import '../services/app_settings_provider.dart';
@@ -184,7 +183,7 @@ class _HomeState extends State<Home> {
       if (!mounted) return;
       setState(() => _aiAdvice = advice);
       await _saveAiAdvice(advice);
-    } on FirebaseFunctionsException catch (e) {
+    } on AdviceException catch (e) {
       // Máy chủ chặn vì đã dùng lượt hôm nay.
       if (e.code == 'resource-exhausted') {
         await _markAiUsed();

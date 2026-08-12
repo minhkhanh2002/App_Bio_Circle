@@ -52,7 +52,6 @@ dependencies:
   firebase_core: ^4.10.0
   cloud_firestore: ^6.5.0
   package_info_plus: ^9.0.1
-  cloud_functions: ^6.3.2
   firebase_app_check: ^0.4.0
   flutter_dynamic_icon_plus: ^1.1.0
 

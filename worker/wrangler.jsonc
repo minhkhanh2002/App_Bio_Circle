@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "biorhythm-advice",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-12",
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "kv_namespaces": [
+    { "binding": "AI_USAGE", "id": "30ceb57ea41747b1a2877be1ee813a49" }
+  ]
+}
