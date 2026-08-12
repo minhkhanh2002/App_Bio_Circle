@@ -141,7 +141,7 @@ class AppStrings {
         'Đời sống tinh thần cân bằng, nhẹ nhàng và tự tại.',
     // Forecast
     'forecast.title': 'Dự báo 60 ngày tới',
-    'forecast.subtitle': 'Các cột mốc sinh học quan trọng trong tương lai gần.',
+    'forecast.subtitle': 'Những cột mốc đáng chú ý sắp tới của bạn.',
     'forecast.goldenTitle': 'Giai Đoạn Hoàng Kim',
     'forecast.goldenDesc':
         'Đây là lúc năng lượng của bạn — cả thể chất, cảm xúc lẫn trí tuệ — cùng lên đỉnh. Rất hợp để bắt đầu dự án mới, thi cử hay đưa ra quyết định lớn!',
@@ -149,24 +149,24 @@ class AppStrings {
     'forecast.healingDesc':
         'Đây là lúc năng lượng chung của bạn đang xuống thấp. Đừng ôm đồm quá nhiều việc, hãy dành thời gian chăm sóc bản thân nhiều hơn nhé.',
     'forecast.extremesTitle': 'Những ngày đáng chú ý',
-    'forecast.bestPhysical': 'Thể chất tốt nhất',
+    'forecast.bestPhysical': 'Ngày sung sức nhất',
     'forecast.bestPhysical.tip':
-        'Phong độ thể lực sung mãn nhất, rất thích hợp vận động nặng.',
-    'forecast.worstPhysical': 'Thể chất kém nhất',
+        'Đây là lúc bạn khoẻ nhất trong 60 ngày tới — tranh thủ vận động mạnh hay dồn sức cho việc nặng nhé!',
+    'forecast.worstPhysical': 'Ngày cần nghỉ ngơi',
     'forecast.worstPhysical.tip':
-        'Cơ thể dễ mỏi mệt, nên hạn chế thức khuya và nghỉ ngơi hợp lý.',
-    'forecast.bestEmotional': 'Cảm xúc thăng hoa nhất',
+        'Cơ thể bạn sẽ hơi đuối vào ngày này — ưu tiên ngủ đủ giấc, đừng ép bản thân quá sức nhé.',
+    'forecast.bestEmotional': 'Ngày cảm xúc thăng hoa',
     'forecast.bestEmotional.tip':
-        'Tâm trạng ngập tràn năng lượng tích cực, kết nối giao lưu cực tốt.',
-    'forecast.worstEmotional': 'Cảm xúc nhạy cảm nhất',
+        'Tâm trạng bạn sẽ cực kỳ tích cực — hợp để gặp gỡ bạn bè hay bắt đầu điều gì đó mới mẻ!',
+    'forecast.worstEmotional': 'Ngày cảm xúc nhạy cảm',
     'forecast.worstEmotional.tip':
-        'Dễ bồn chồn hoặc căng thẳng, nên tập thiền hay nghe nhạc thư giãn.',
-    'forecast.bestIntellectual': 'Trí tuệ sáng bén nhất',
+        'Bạn có thể thấy dễ bồn chồn hoặc căng thẳng hơn — thử thiền hay nghe vài bản nhạc nhẹ để dịu lại nhé.',
+    'forecast.bestIntellectual': 'Ngày đầu óc minh mẫn',
     'forecast.bestIntellectual.tip':
-        'Khả năng tư duy logic và tiếp thu kiến thức nhanh nhạy nhất.',
-    'forecast.worstIntellectual': 'Trí tuệ kém tập trung nhất',
+        'Đầu óc bạn sẽ cực kỳ tỉnh táo — thời điểm lý tưởng để học điều mới hay giải quyết việc khó.',
+    'forecast.worstIntellectual': 'Ngày dễ mất tập trung',
     'forecast.worstIntellectual.tip':
-        'Trí óc khó tập trung, nên chia nhỏ công việc để tránh quá tải.',
+        'Trí óc bạn có thể hơi khó tập trung hôm nay — chia nhỏ công việc ra để đỡ ngợp nhé.',
     // Settings
     'settings.title': 'Cài đặt',
     'settings.subtitle': 'Quản lý hồ sơ cá nhân và cấu hình ứng dụng.',
@@ -350,32 +350,32 @@ class AppStrings {
     'extend.spiritual.mid':
         'A balanced, gentle and serene spiritual life.',
     'forecast.title': 'Next 60 Days Forecast',
-    'forecast.subtitle': 'Key biorhythm milestones in the near future.',
+    'forecast.subtitle': 'The milestones ahead worth knowing about.',
     'forecast.goldenTitle': 'Golden Period',
     'forecast.goldenDesc':
-        'A stretch where your combined energy (physical, emotional, intellectual) peaks. Great for starting new projects, exams or big decisions!',
+        'This is when your energy — physical, emotional and intellectual — all peak together. Great for starting new projects, exams or big decisions!',
     'forecast.healingTitle': 'Recovery Period',
     'forecast.healingDesc':
-        'A stretch where combined vitality bottoms out. Avoid overloading work, lower training intensity and take better care of yourself.',
-    'forecast.extremesTitle': 'Extreme Days (Peaks & Lows)',
-    'forecast.bestPhysical': 'Best physical day',
+        'This is when your overall energy dips. Don’t overload yourself with work — take some extra time to rest and recharge.',
+    'forecast.extremesTitle': 'Days worth noting',
+    'forecast.bestPhysical': 'Your strongest day',
     'forecast.bestPhysical.tip':
-        'Peak physical condition — perfect for intense activity.',
-    'forecast.worstPhysical': 'Weakest physical day',
+        'You’ll be at your peak physically — perfect for intense activity or tackling something demanding.',
+    'forecast.worstPhysical': 'A day to rest',
     'forecast.worstPhysical.tip':
-        'Body tires easily — limit late nights and rest well.',
-    'forecast.bestEmotional': 'Most uplifted emotionally',
+        'Your body may feel a bit worn out — prioritize sleep and go easy on yourself.',
+    'forecast.bestEmotional': 'Your most uplifted day',
     'forecast.bestEmotional.tip':
-        'Full of positive energy — excellent for connecting and socializing.',
-    'forecast.worstEmotional': 'Most emotionally sensitive',
+        'You’ll be brimming with positive energy — great for connecting with people or starting something new.',
+    'forecast.worstEmotional': 'A more sensitive day',
     'forecast.worstEmotional.tip':
-        'Prone to restlessness or stress — try meditation or relaxing music.',
-    'forecast.bestIntellectual': 'Sharpest mind',
+        'You might feel a bit restless or on edge — try meditating or putting on some relaxing music.',
+    'forecast.bestIntellectual': 'Your sharpest day',
     'forecast.bestIntellectual.tip':
-        'Fastest logical thinking and learning ability.',
-    'forecast.worstIntellectual': 'Least focused mind',
+        'Your mind will be razor-sharp — a great time to learn something new or tackle a tough problem.',
+    'forecast.worstIntellectual': 'A day to slow down',
     'forecast.worstIntellectual.tip':
-        'Hard to focus — break work into smaller parts to avoid overload.',
+        'Focus may not come easily today — break your work into smaller chunks so it feels less overwhelming.',
     'settings.title': 'Settings',
     'settings.subtitle': 'Manage your profile and app preferences.',
     'settings.profile': 'Personal Info',
