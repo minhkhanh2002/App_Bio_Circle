@@ -48,3 +48,4 @@ app.*.map.json
 /builder.exe
 /dist/
 /dist_release/
+/dist_android/

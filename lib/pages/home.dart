@@ -161,10 +161,11 @@ class _HomeState extends State<Home> {
     if (_aiUsedToday) {
       // Đã hết lượt hôm nay: nếu đúng ngày này đã có câu AI sinh sẵn (người
       // dùng chỉ đang xem lại sau khi bấm "Đổi gợi ý"), hiện lại luôn, không
-      // tính là cố lạm dụng và không gọi API mới.
+      // gọi API mới. Vẫn tính là "cố bấm sau khi hết lượt" (_handleAiNag) như
+      // trước — nếu không, người dùng đang xem đúng ngày đã có AI sẽ không
+      // bao giờ tích lũy được lời nhắc phân tầng / mở khóa huy hiệu ẩn.
       if (_savedAiAdvice != null && _savedAiAdviceDateKey == _selectedDateKey) {
         setState(() => _aiAdvice = _savedAiAdvice);
-        return;
       }
       await _handleAiNag(s);
       return;
