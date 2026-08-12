@@ -14,6 +14,15 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		6049FFA41DF0D025A88D4E57 /* PioCalm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE4234EBC7BCF140B4677DBB /* PioCalm@2x.png */; };
+		75C435E1FEA469BE1C24ACDF /* PioCalm@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C5D1CE78FCDC36F33CFED0 /* PioCalm@3x.png */; };
+		839A7217CAA4C8C595DD7CE9 /* PioEmotional@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E4320176FCD892B5493C7B /* PioEmotional@2x.png */; };
+		B11079F5A937CAF4706EBE67 /* PioEmotional@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70C71F0E5456BB8E756EB10 /* PioEmotional@3x.png */; };
+		8E14850AAD9581BCB0CD464F /* PioIntellectual@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B21B372B7D4FCB5094E0ED9 /* PioIntellectual@2x.png */; };
+		93EC911E59678073E8DFC88B /* PioIntellectual@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9D5E4C8E52454DCB4509CFD /* PioIntellectual@3x.png */; };
+		56EAC7910E23FC4680BDCC7D /* PioPhysical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31975BFFBD79D71052F27485 /* PioPhysical@2x.png */; };
+		1D4DF33ABF7A92A9F0D8DDCC /* PioPhysical@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 966523CCA617F152CEFB5B79 /* PioPhysical@3x.png */; };
+		E7560CBD58F08CFD65D344BD /* pio_chirp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 9AC2433088B5DD60C34DC48D /* pio_chirp.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +64,15 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE4234EBC7BCF140B4677DBB /* PioCalm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioCalm@2x.png"; sourceTree = "<group>"; };
+		93C5D1CE78FCDC36F33CFED0 /* PioCalm@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioCalm@3x.png"; sourceTree = "<group>"; };
+		58E4320176FCD892B5493C7B /* PioEmotional@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioEmotional@2x.png"; sourceTree = "<group>"; };
+		A70C71F0E5456BB8E756EB10 /* PioEmotional@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioEmotional@3x.png"; sourceTree = "<group>"; };
+		8B21B372B7D4FCB5094E0ED9 /* PioIntellectual@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioIntellectual@2x.png"; sourceTree = "<group>"; };
+		C9D5E4C8E52454DCB4509CFD /* PioIntellectual@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioIntellectual@3x.png"; sourceTree = "<group>"; };
+		31975BFFBD79D71052F27485 /* PioPhysical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioPhysical@2x.png"; sourceTree = "<group>"; };
+		966523CCA617F152CEFB5B79 /* PioPhysical@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PioPhysical@3x.png"; sourceTree = "<group>"; };
+		9AC2433088B5DD60C34DC48D /* pio_chirp.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = pio_chirp.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +135,15 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				DE4234EBC7BCF140B4677DBB /* PioCalm@2x.png */,
+				93C5D1CE78FCDC36F33CFED0 /* PioCalm@3x.png */,
+				58E4320176FCD892B5493C7B /* PioEmotional@2x.png */,
+				A70C71F0E5456BB8E756EB10 /* PioEmotional@3x.png */,
+				8B21B372B7D4FCB5094E0ED9 /* PioIntellectual@2x.png */,
+				C9D5E4C8E52454DCB4509CFD /* PioIntellectual@3x.png */,
+				31975BFFBD79D71052F27485 /* PioPhysical@2x.png */,
+				966523CCA617F152CEFB5B79 /* PioPhysical@3x.png */,
+				9AC2433088B5DD60C34DC48D /* pio_chirp.caf */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -216,6 +243,15 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				6049FFA41DF0D025A88D4E57 /* PioCalm@2x.png in Resources */,
+				75C435E1FEA469BE1C24ACDF /* PioCalm@3x.png in Resources */,
+				839A7217CAA4C8C595DD7CE9 /* PioEmotional@2x.png in Resources */,
+				B11079F5A937CAF4706EBE67 /* PioEmotional@3x.png in Resources */,
+				8E14850AAD9581BCB0CD464F /* PioIntellectual@2x.png in Resources */,
+				93EC911E59678073E8DFC88B /* PioIntellectual@3x.png in Resources */,
+				56EAC7910E23FC4680BDCC7D /* PioPhysical@2x.png in Resources */,
+				1D4DF33ABF7A92A9F0D8DDCC /* PioPhysical@3x.png in Resources */,
+				E7560CBD58F08CFD65D344BD /* pio_chirp.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

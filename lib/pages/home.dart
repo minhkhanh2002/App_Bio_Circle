@@ -36,6 +36,11 @@ class _HomeState extends State<Home> {
   String? _aiAdvice;
   bool _aiLoading = false;
   bool _aiUsedToday = false; // giới hạn 1 lần gọi AI / ngày
+  // Lời khuyên AI đã sinh trong ngày, kèm ngày (selectedDate) nó thuộc về — để
+  // nếu người dùng bấm "Đổi gợi ý" rồi bấm AI lại (đã hết lượt), có thể hiện
+  // lại đúng câu đã sinh thay vì chỉ báo hết lượt và mất luôn nội dung.
+  String? _savedAiAdvice;
+  String? _savedAiAdviceDateKey;
   int _bankSeed = 0; // tăng lên khi bấm "Đổi gợi ý"
   int _aiNagCount = 0; // số lần cố bấm sau khi đã hết lượt (cho lời nhắc phân tầng)
 
@@ -51,16 +56,45 @@ class _HomeState extends State<Home> {
   String get _todayKey =>
       '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
 
+  String get _selectedDateKey =>
+      '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
+
   Future<void> _loadAiUsage() async {
     final prefs = await SharedPreferences.getInstance();
     final used = prefs.getString('lastAiAdviceYmd_core') == _todayKey;
-    if (mounted && used) setState(() => _aiUsedToday = true);
+    if (!used || !mounted) return;
+    final savedText = prefs.getString('lastAiAdviceText_core');
+    final savedDateKey = prefs.getString('lastAiAdviceDateKey_core');
+    setState(() {
+      _aiUsedToday = true;
+      _savedAiAdvice = savedText;
+      _savedAiAdviceDateKey = savedDateKey;
+      if (savedText != null && savedDateKey == _selectedDateKey) {
+        _aiAdvice = savedText;
+      }
+    });
   }
 
   Future<void> _markAiUsed() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('lastAiAdviceYmd_core', _todayKey);
     if (mounted) setState(() => _aiUsedToday = true);
+  }
+
+  /// Như [_markAiUsed] nhưng lưu kèm nội dung AI đã sinh, để có thể hiện lại
+  /// nếu người dùng chuyển qua gợi ý từ kho rồi bấm AI lại trong cùng ngày.
+  Future<void> _saveAiAdvice(String advice) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('lastAiAdviceYmd_core', _todayKey);
+    await prefs.setString('lastAiAdviceText_core', advice);
+    await prefs.setString('lastAiAdviceDateKey_core', _selectedDateKey);
+    if (mounted) {
+      setState(() {
+        _aiUsedToday = true;
+        _savedAiAdvice = advice;
+        _savedAiAdviceDateKey = _selectedDateKey;
+      });
+    }
   }
 
   @override
@@ -89,7 +123,11 @@ class _HomeState extends State<Home> {
   void _selectDate(DateTime date) {
     setState(() {
       selectedDate = date;
-      _aiAdvice = null; // lời khuyên gắn với từng ngày
+      // Lời khuyên gắn với từng ngày: nếu ngày này đã có câu AI sinh sẵn
+      // trong ngày hôm nay, hiện lại luôn; nếu không thì về gợi ý kho.
+      _aiAdvice = (_savedAiAdvice != null && _savedAiAdviceDateKey == _selectedDateKey)
+          ? _savedAiAdvice
+          : null;
     });
     _centerOnDate(date);
   }
@@ -122,6 +160,13 @@ class _HomeState extends State<Home> {
 
   Future<void> _fetchAiAdvice(AppStrings s, DateTime birthDate, String? name) async {
     if (_aiUsedToday) {
+      // Đã hết lượt hôm nay: nếu đúng ngày này đã có câu AI sinh sẵn (người
+      // dùng chỉ đang xem lại sau khi bấm "Đổi gợi ý"), hiện lại luôn, không
+      // tính là cố lạm dụng và không gọi API mới.
+      if (_savedAiAdvice != null && _savedAiAdviceDateKey == _selectedDateKey) {
+        setState(() => _aiAdvice = _savedAiAdvice);
+        return;
+      }
       await _handleAiNag(s);
       return;
     }
@@ -138,7 +183,7 @@ class _HomeState extends State<Home> {
       );
       if (!mounted) return;
       setState(() => _aiAdvice = advice);
-      await _markAiUsed();
+      await _saveAiAdvice(advice);
     } on FirebaseFunctionsException catch (e) {
       // Máy chủ chặn vì đã dùng lượt hôm nay.
       if (e.code == 'resource-exhausted') {
@@ -185,7 +230,9 @@ class _HomeState extends State<Home> {
   void _resetToToday() {
     setState(() {
       selectedDate = today;
-      _aiAdvice = null;
+      _aiAdvice = (_savedAiAdvice != null && _savedAiAdviceDateKey == _selectedDateKey)
+          ? _savedAiAdvice
+          : null;
     });
     _centerOnDate(today);
   }
